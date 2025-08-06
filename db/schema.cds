@@ -11,7 +11,7 @@ entity Products : managed {
   currency            : Currency;
 }
 
-entity Suppliers       : managed {
+entity Suppliers : managed {
   key ID               : Integer;
   @mandatory name      : String(100);
   email                : String(100);
@@ -20,9 +20,9 @@ entity Suppliers       : managed {
   products             : Association to many Products on products.supplier = $self;
 }
 
-entity Stock     : managed {
-    key ID       : Integer;
-    product      : Association to Products;
-    quantity     : Integer @assert.range: [0, 999999];
-    lastUpdated  : Timestamp @cds.on.update: $now;
+entity Stock : managed {
+    key ID              : Integer;
+    @mandatory product  : Association to Products;
+    quantity            : Integer @assert.range: [0, 999999];
+    lastUpdated         : Timestamp @cds.on.update: $now;
 }
