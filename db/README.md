@@ -120,6 +120,8 @@ entity Suppliers : managed {
   email                : String(100);
   phone                : String(25);
   address              : String(255);
+  ...
+}
 ```
 
 These lines are self-explanatory enough, refer to previous explanations for details on `managed`, `key`, and `@mandatory`.
@@ -135,7 +137,7 @@ products : Association to many Products on products.supplier = $self;
 
 ---
 
-# Stock Entity
+### Stock Entity
 
 ```cds
 entity Stock : managed {
