@@ -36,7 +36,9 @@ This document describes the Core Data Services (CDS) data model for an inventory
 
 ## Data Model
 
-The following CDS code defines the structure of the entities and their relationship
+The following CDS code defines the structure of the entities and their relationships
+
+### Product Entity
 
 ```cds
   using { Currency, managed } from '@sap/cds/common';
@@ -87,7 +89,8 @@ description : localized String(1000);
 ```
 
 - Defines a field called `supplier` that links to a single `Suppliers` entity.
-- The `Association` keyword means this is a relationship (like a foreign key in a database). The `@mandatory` means every product must be linked to a supplier.
+- The `Association` keyword means this is a relationship (like a foreign key in a database).
+- The `@mandatory` means every product must be linked to a supplier.
 - This connects a product to its supplier (e.g., “This laptop is supplied by TechCorp”). It ensures you can track who provides each product.
 - **Best practice**: Use associations to model relationships between entities, and make them mandatory if the relationship is critical.
 
@@ -104,9 +107,11 @@ stock : Association to many Stock on stock.product = $self;
 price : Decimal(10,2);
 ```
 
-// Price of the product, stored as a decimal with 10 digits total, 2 after the decimal (e.g., $ 12345678.90)
+- Price of the product, stored as a decimal with 10 digits total, 2 after the decimal (e.g., $ 12345678.90)
 
 ---
+
+### Supplier Entity
 
 ```cds
 entity Suppliers : managed {
@@ -127,6 +132,19 @@ products : Association to many Products on products.supplier = $self;
 - Links a supplier to multiple products they supply. The `on products.supplier = $self` means the supplier field in Products must match this supplier’s ID.
 - Why? This creates a two-way relationship: products link to their supplier, and suppliers link to their products. This is called a bidirectional relationship.
 - **Best practice**: Define both sides of a relationship (in Products and Suppliers) for flexibility in querying data.
+
+---
+
+# Stock Entity
+
+```cds
+entity Stock : managed {
+  key ID              : Integer;
+  ...
+}
+```
+
+These lines are self-explanatory enough, refer to previous explanations for details.
 
 ```cds
 @mandatory product : Association to Products;
