@@ -21,7 +21,7 @@ entity Suppliers       : managed {
 }
 
 entity Stock     : managed {
-    key ID       : UUID;
+    key ID       : Integer;
     product      : Association to Products;
     quantity     : Integer @assert.range: [0, 999999];
     lastUpdated  : Timestamp @cds.on.update: $now;
