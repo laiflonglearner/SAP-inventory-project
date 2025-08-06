@@ -1,31 +1,28 @@
-using { Currency, managed, sap } from '@sap/cds/common';
+using { Currency, managed } from '@sap/cds/common';
 namespace com.nadsportfolio.inventory;
 
 entity Products : managed {
-  key ID : Integer;
-  @mandatory name  : localized String(111);
-  descr  : localized String(1111);
+  key ID              : Integer;
+  @mandatory name     : localized String(100);
+  description         : localized String(1000);
   @mandatory supplier : Association to Suppliers;
-  category : Association to Categories;
-  stock  : Integer;
-  price  : Decimal;
-  currency : Currency;
-  image : LargeBinary @Core.MediaType : 'image/png';
+  stock               : Association to many Stock on stock.product = $self;
+  price               : Decimal(10,2);
+  currency            : Currency;
 }
 
-entity Suppliers : managed {
-  key ID : Integer;
-  @mandatory name   : String(111);
-  Email: String(111);
-  phoneNumber: String(25);
-  address : String(255);
-  
-  products  : Association to many Products on products.supplier = $self;
+entity Suppliers       : managed {
+  key ID               : Integer;
+  @mandatory name      : String(100);
+  email                : String(100);
+  phone                : String(25);
+  address              : String(255);
+  products             : Association to many Products on products.supplier = $self;
 }
 
-/** Hierarchically organized Code List for Categories */
-entity Categories : sap.common.CodeList {
-  key ID   : Integer;
-  parent   : Association to Categories;
-  children : Composition of many Categories on children.parent = $self;
+entity Stock     : managed {
+    key ID       : UUID;
+    product      : Association to Products;
+    quantity     : Integer @assert.range: [0, 999999];
+    lastUpdated  : Timestamp @cds.on.update: $now;
 }
