@@ -1,0 +1,18 @@
+specVersion: "3.0"
+metadata:
+  name: inventory-ui
+type: application
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        backend:
+          - path: /catalog
+            url: http://localhost:4004
+            destination: cap-backend
+        ui5:
+          path:
+            - /resources
+            - /test-resources
+          url: https://ui5.sap.com
