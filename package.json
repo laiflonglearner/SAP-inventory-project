@@ -18,6 +18,10 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "deploy": "cds deploy --to sqlite:db/inventory.db"
-  }
+    "deploy": "cds deploy --to sqlite:db/inventory.db",
+    "watch-inventory-ui": "cds watch --open inventory-ui/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "sapux": [
+    "app/inventory-ui"
+  ]
 }
